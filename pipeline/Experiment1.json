@@ -39,7 +39,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "Experiment1",
+						"referenceName": "gases",
 						"type": "NotebookReference"
 					},
 					"parameters": {
