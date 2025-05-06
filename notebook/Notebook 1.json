@@ -1,5 +1,5 @@
 {
-	"name": "gases",
+	"name": "Notebook 1",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d96367fe-6dff-48c4-a27c-c745954a7650"
+				"spark.autotune.trackingId": "dbdee0ca-a714-422d-9b3c-16756bce0967"
 			}
 		},
 		"metadata": {
@@ -25,7 +25,7 @@
 			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
-				"display_name": "Synapse PySpark"
+				"display_name": "python"
 			},
 			"language_info": {
 				"name": "python"
@@ -51,7 +51,7 @@
 			{
 				"cell_type": "code",
 				"source": [
-					""
+					"Foo"
 				],
 				"execution_count": null
 			}
