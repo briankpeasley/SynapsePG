@@ -38,12 +38,17 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"notebook": {
+						"referenceName": "Experiment1",
+						"type": "NotebookReference"
+					},
 					"parameters": {
 						"atomsData": {
 							"value": {
-								"value": "@string(activity('GetData').output.value)",
+								"value": "@string(activity('GetData').output.pipelineReturnValue)",
 								"type": "Expression"
-							}
+							},
+							"type": "string"
 						}
 					},
 					"snapshot": true
