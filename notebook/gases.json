@@ -1,5 +1,5 @@
 {
-	"name": "Experiment1",
+	"name": "gases",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ff3ec4ce-f2b9-4c2e-88f2-3cbce9ae6cbd"
+				"spark.autotune.trackingId": "3948d0fa-9109-43a1-8db2-8c834e4f6ef0"
 			}
 		},
 		"metadata": {
@@ -51,6 +51,20 @@
 			{
 				"cell_type": "code",
 				"source": [
+					"import sys\r\n",
+					"import json\r\n",
+					"from pyspark.sql import SparkSession\r\n",
+					"\r\n",
+					"spark = SparkSession.builder.getOrCreate()\r\n",
+					"print(data)\r\n",
+					"records = json.loads(data)\r\n",
+					"\r\n",
+					"# Create DataFrame from list of dicts\r\n",
+					"df = spark.createDataFrame(records)\r\n",
+					"\r\n",
+					"# Filter for gaseous atoms\r\n",
+					"gases_df = df.filter(df[\"state\"] == \"gas\")\r\n",
+					"gases_df.show()\r\n",
 					""
 				],
 				"execution_count": null
