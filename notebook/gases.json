@@ -51,6 +51,7 @@
 			{
 				"cell_type": "code",
 				"source": [
+					"HELLO WORLD!\r\n",
 					"from notebookutils import mssparkutils\r\n",
 					"\r\n",
 					"# Synapse Git-integrated file system path (case sensitive!)\r\n",
