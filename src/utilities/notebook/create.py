@@ -26,16 +26,17 @@ def convert(name: str, file: str):
         
         formatted.append(stripped + "\r\n")
 
-    notebook = {
-        "name": name,
-        "properties": config,
-        "cells": [
+    config["cells"] = [
             {
                 "cell_type": "code",
                 "execution_count": 1,
                 "source": formatted
             }
         ]
+    
+    notebook = {
+        "name": name,
+        "properties": config
     }
 
     output_file = f"{root}/notebook/{name}.json"

@@ -46,28 +46,28 @@
                 "automaticScaleJobs": false
             },
             "sessionKeepAliveTimeout": 30
-        }
-    },
-    "cells": [
-        {
-            "cell_type": "code",
-            "execution_count": 1,
-            "source": [
-                "import sys\r\n",
-                "import json\r\n",
-                "from pyspark.sql import SparkSession\r\n",
-                "\r\n",
-                "\r\n",
-                "spark = SparkSession.builder.getOrCreate()\r\n",
-                "records = json.loads(data)\r\n",
-                "\r\n",
-                "# Create DataFrame from list of dicts\r\n",
-                "df = spark.createDataFrame(records)\r\n",
-                "\r\n",
-                "# Filter for gaseous atoms\r\n",
-                "gases_df = df.filter(df[\"state\"] == \"gas\")\r\n",
-                "gases_df.show()\r\n"
-            ]
-        }
-    ]
+        },
+        "cells": [
+            {
+                "cell_type": "code",
+                "execution_count": 1,
+                "source": [
+                    "import sys\r\n",
+                    "import json\r\n",
+                    "from pyspark.sql import SparkSession\r\n",
+                    "\r\n",
+                    "\r\n",
+                    "spark = SparkSession.builder.getOrCreate()\r\n",
+                    "records = json.loads(data)\r\n",
+                    "\r\n",
+                    "# Create DataFrame from list of dicts\r\n",
+                    "df = spark.createDataFrame(records)\r\n",
+                    "\r\n",
+                    "# Filter for gaseous atoms\r\n",
+                    "gases_df = df.filter(df[\"state\"] == \"gas\")\r\n",
+                    "gases_df.show()\r\n"
+                ]
+            }
+        ]
+    }
 }
