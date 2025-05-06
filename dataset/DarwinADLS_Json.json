@@ -1,0 +1,45 @@
+{
+	"name": "DarwinADLS_Json",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DarwinADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "atoms.json",
+				"folderPath": "data",
+				"fileSystem": "darwinfs"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"element": {
+					"type": "string"
+				},
+				"symbol": {
+					"type": "string"
+				},
+				"atomic_number": {
+					"type": "integer"
+				},
+				"atomic_mass": {
+					"type": "number"
+				},
+				"group": {
+					"type": "integer"
+				},
+				"period": {
+					"type": "integer"
+				},
+				"state": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}

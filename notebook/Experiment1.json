@@ -1,0 +1,61 @@
+{
+	"name": "Experiment1",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "a131a0cb-f954-41ec-a6a9-bc39f6d89728"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"import sys\n",
+					"from pyspark.sql import SparkSession\n",
+					"\n",
+					"# Initialize Spark session\n",
+					"spark = SparkSession.builder.getOrCreate()\n",
+					"\n",
+					"# Get input file path from argument (passed via Synapse pipeline)\n",
+					"input_path = sys.argv[1]  # e.g., abfss://container@storageaccount.dfs.core.windows.net/data/elements.csv\n",
+					"\n",
+					"# Read input data (assumes CSV with headers)\n",
+					"df = spark.read.option(\"header\", True).csv(input_path)\n",
+					"\n",
+					"# Filter for elements that are gases (assuming a 'state' column exists)\n",
+					"gases_df = df.filter(df[\"state\"] == \"gas\")\n",
+					"\n",
+					"# Show results\n",
+					"gases_df.show()\n",
+					"\n",
+					"# Optional: write to output (could be another ADLS path)\n",
+					"# gases_df.write.mode(\"overwrite\").parquet(sys.argv[2])\n",
+					""
+				],
+				"execution_count": null
+			}
+		]
+	}
+}
