@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3948d0fa-9109-43a1-8db2-8c834e4f6ef0"
+				"spark.autotune.trackingId": "e0659bf8-8c67-4de8-9c3b-599be2dac10e"
 			}
 		},
 		"metadata": {
@@ -25,7 +25,7 @@
 			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
-				"display_name": "python"
+				"display_name": "Synapse PySpark"
 			},
 			"language_info": {
 				"name": "python"
@@ -51,23 +51,15 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"import sys\r\n",
-					"import json\r\n",
-					"from pyspark.sql import SparkSession\r\n",
+					"from notebookutils import mssparkutils\r\n",
 					"\r\n",
-					"spark = SparkSession.builder.getOrCreate()\r\n",
-					"print(data)\r\n",
-					"records = json.loads(data)\r\n",
+					"# Synapse Git-integrated file system path (case sensitive!)\r\n",
+					"code_path = \"src/gases.py\"\r\n",
 					"\r\n",
-					"# Create DataFrame from list of dicts\r\n",
-					"df = spark.createDataFrame(records)\r\n",
-					"\r\n",
-					"# Filter for gaseous atoms\r\n",
-					"gases_df = df.filter(df[\"state\"] == \"gas\")\r\n",
-					"gases_df.show()\r\n",
-					""
+					"code = mssparkutils.fs.open(code_path).read()\r\n",
+					"exec(code)"
 				],
-				"execution_count": null
+				"execution_count": 1
 			}
 		]
 	}
