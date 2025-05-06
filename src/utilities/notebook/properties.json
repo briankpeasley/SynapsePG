@@ -1,0 +1,48 @@
+{
+    "nbformat": 4,
+    "nbformat_minor": 2,
+    "bigDataPool": {
+        "referenceName": "darwinsparkpoc",
+        "type": "BigDataPoolReference"
+    },
+    "sessionProperties": {
+        "driverMemory": "28g",
+        "driverCores": 4,
+        "executorMemory": "28g",
+        "executorCores": 4,
+        "numExecutors": 2,
+        "conf": {
+            "spark.dynamicAllocation.enabled": "false",
+            "spark.dynamicAllocation.minExecutors": "2",
+            "spark.dynamicAllocation.maxExecutors": "2",
+            "spark.autotune.trackingId": "e0659bf8-8c67-4de8-9c3b-599be2dac10e"
+        }
+    },
+    "metadata": {
+        "saveOutput": true,
+        "enableDebugMode": false,
+        "kernelspec": {
+            "name": "synapse_pyspark",
+            "display_name": "Synapse PySpark"
+        },
+        "language_info": {
+            "name": "python"
+        },
+        "a365ComputeOptions": {
+            "id": "/subscriptions/199b3c58-a154-4c89-80c8-6bbc39e6bee0/resourceGroups/darwinpoc/providers/Microsoft.Synapse/workspaces/darwinsynapse/bigDataPools/darwinsparkpoc",
+            "name": "darwinsparkpoc",
+            "type": "Spark",
+            "endpoint": "https://darwinsynapse.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/darwinsparkpoc",
+            "auth": {
+                "type": "AAD",
+                "authResource": "https://dev.azuresynapse.net"
+            },
+            "sparkVersion": "3.4",
+            "nodeCount": 3,
+            "cores": 4,
+            "memory": 28,
+            "automaticScaleJobs": false
+        },
+        "sessionKeepAliveTimeout": 30
+    }
+}		

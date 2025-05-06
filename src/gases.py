@@ -2,8 +2,12 @@ import sys
 import json
 from pyspark.sql import SparkSession
 
+#region exclude
+import Data
+data = Data.resolve(Data.FileData, "/mnt/c/temp/Synapse/atoms.json")
+#endregion
+
 spark = SparkSession.builder.getOrCreate()
-print(data)
 records = json.loads(data)
 
 # Create DataFrame from list of dicts
