@@ -1,0 +1,10 @@
+{
+	"name": "DarwinADLS",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://darwinadls.dfs.core.windows.net/"
+		}
+	}
+}
