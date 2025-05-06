@@ -3,6 +3,10 @@
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "darwinsparkpoc",
+			"type": "BigDataPoolReference"
+		},
 		"sessionProperties": {
 			"driverMemory": "28g",
 			"driverCores": 4,
@@ -13,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a131a0cb-f954-41ec-a6a9-bc39f6d89728"
+				"spark.autotune.trackingId": "2e569e66-8b58-4ebb-b2d8-7f840c123986"
 			}
 		},
 		"metadata": {
@@ -26,6 +30,21 @@
 			"language_info": {
 				"name": "python"
 			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/199b3c58-a154-4c89-80c8-6bbc39e6bee0/resourceGroups/darwinpoc/providers/Microsoft.Synapse/workspaces/darwinsynapse/bigDataPools/darwinsparkpoc",
+				"name": "darwinsparkpoc",
+				"type": "Spark",
+				"endpoint": "https://darwinsynapse.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/darwinsparkpoc",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
 			"sessionKeepAliveTimeout": 30
 		},
 		"cells": [
@@ -33,25 +52,20 @@
 				"cell_type": "code",
 				"source": [
 					"import sys\n",
+					"import json\n",
 					"from pyspark.sql import SparkSession\n",
 					"\n",
-					"# Initialize Spark session\n",
 					"spark = SparkSession.builder.getOrCreate()\n",
 					"\n",
-					"# Get input file path from argument (passed via Synapse pipeline)\n",
-					"input_path = sys.argv[1]  # e.g., abfss://container@storageaccount.dfs.core.windows.net/data/elements.csv\n",
+					"atoms = atomsData\n",
+					"records = json.loads(lookup_json_str)\n",
 					"\n",
-					"# Read input data (assumes CSV with headers)\n",
-					"df = spark.read.option(\"header\", True).csv(input_path)\n",
+					"# Create DataFrame from list of dicts\n",
+					"df = spark.createDataFrame(records)\n",
 					"\n",
-					"# Filter for elements that are gases (assuming a 'state' column exists)\n",
+					"# Filter for gaseous atoms\n",
 					"gases_df = df.filter(df[\"state\"] == \"gas\")\n",
-					"\n",
-					"# Show results\n",
 					"gases_df.show()\n",
-					"\n",
-					"# Optional: write to output (could be another ADLS path)\n",
-					"# gases_df.write.mode(\"overwrite\").parquet(sys.argv[2])\n",
 					""
 				],
 				"execution_count": null
