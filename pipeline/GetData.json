@@ -32,8 +32,46 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "pipelineReturnValue",
+					"value": [
+						{
+							"key": "Data",
+							"value": {
+								"type": "Expression",
+								"content": "@activity('Lookup1').output"
+							}
+						}
+					],
+					"setSystemVariable": true
+				}
 			}
 		],
+		"variables": {
+			"Data": {
+				"type": "String"
+			},
+			"OutputVariable": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }

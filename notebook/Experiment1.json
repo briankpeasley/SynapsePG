@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "8caaa5d4-3492-4d0e-a2f0-40933ce55bff"
+				"spark.autotune.trackingId": "ee52cf42-1427-4001-945b-ed1bc668f17d"
 			}
 		},
 		"metadata": {
@@ -56,8 +56,8 @@
 					"from pyspark.sql import SparkSession\n",
 					"\n",
 					"spark = SparkSession.builder.getOrCreate()\n",
-					"\n",
-					"records = json.loads(atomsData)\n",
+					"print(data)\n",
+					"records = json.loads(data)\n",
 					"\n",
 					"# Create DataFrame from list of dicts\n",
 					"df = spark.createDataFrame(records)\n",

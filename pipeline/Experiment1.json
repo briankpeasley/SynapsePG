@@ -43,18 +43,32 @@
 						"type": "NotebookReference"
 					},
 					"parameters": {
-						"atomsData": {
+						"data": {
 							"value": {
-								"value": "@string(activity('GetData').output.pipelineReturnValue)",
+								"value": "@string(activity('GetData').output.pipelineReturnValue.Data.value)",
 								"type": "Expression"
 							},
 							"type": "string"
 						}
 					},
-					"snapshot": true
+					"snapshot": true,
+					"sparkPool": {
+						"referenceName": "darwinsparkpoc",
+						"type": "BigDataPoolReference"
+					},
+					"executorSize": "Small",
+					"driverSize": "Small"
 				}
 			}
 		],
+		"variables": {
+			"Data": {
+				"type": "String"
+			},
+			"OutputVariable": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
