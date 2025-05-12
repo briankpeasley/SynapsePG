@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "8adde02f-bc44-4dbf-856a-5c0029865948"
+				"spark.autotune.trackingId": "86953d27-39a4-4ce3-bdef-27eb7bc85a12"
 			}
 		},
 		"metadata": {
@@ -25,7 +25,7 @@
 			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
-				"display_name": "python"
+				"display_name": "Synapse PySpark"
 			},
 			"language_info": {
 				"name": "python"
@@ -51,12 +51,45 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"import os\n",
+					"# Set your Storage account and container\n",
+					"storage_account_name = \"darwinadls\"\n",
+					"container_name = \"darwinfs\"\n",
 					"\n",
-					"print(\"wtf\")\n",
+					"# Paths\n",
+					"raw_data_path = f\"abfss://{container_name}@{storage_account_name}.dfs.core.windows.net/data/transcripts/\"\n",
+					"curated_data_path = f\"abfss://{container_name}@{storage_account_name}.dfs.core.windows.net/data/transcripts/curated/\"\n",
 					""
 				],
-				"execution_count": null
+				"execution_count": 4
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"df_raw = spark.read.json(raw_data_path)\n",
+					"df_raw.show()"
+				],
+				"execution_count": 8
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"# Write out as Parquet to curated path (overwrite mode for dev)\n",
+					"df_raw.write.mode(\"overwrite\").parquet(curated_data_path)\n",
+					""
+				],
+				"execution_count": 9
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"# Read back curated Parquet data\n",
+					"df_curated = spark.read.parquet(curated_data_path)\n",
+					"\n",
+					"# Show final curated data\n",
+					"df_curated.show()\n",
+					""
+				],
+				"execution_count": 10
 			}
 		]
 	}
