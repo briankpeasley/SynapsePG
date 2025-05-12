@@ -1,5 +1,5 @@
 {
-	"name": "Notebook 1",
+	"name": "ConvertToParque",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "86953d27-39a4-4ce3-bdef-27eb7bc85a12"
+				"spark.autotune.trackingId": "65f4c616-1d6e-4eb9-9a12-381f5b34c78c"
 			}
 		},
 		"metadata": {
@@ -51,6 +51,8 @@
 			{
 				"cell_type": "code",
 				"source": [
+					"from pyspark.sql.functions import col, regexp_extract, input_file_name\n",
+					"\n",
 					"# Set your Storage account and container\n",
 					"storage_account_name = \"darwinadls\"\n",
 					"container_name = \"darwinfs\"\n",
@@ -58,38 +60,16 @@
 					"# Paths\n",
 					"raw_data_path = f\"abfss://{container_name}@{storage_account_name}.dfs.core.windows.net/data/transcripts/\"\n",
 					"curated_data_path = f\"abfss://{container_name}@{storage_account_name}.dfs.core.windows.net/data/transcripts/curated/\"\n",
-					""
+					"df_raw = spark.read.json(raw_data_path)\n",
+					"\n",
+					"# Format data\n",
+					"df_with_exec = df_raw.withColumn(\"file_path\", input_file_name())\n",
+					"df_with_exec = df_with_exec.withColumn(\"execution_id\", regexp_extract(col(\"file_path\"), \"(transcript[0-9]+)\\\\.json\", 1))\n",
+					"df_curated = df_with_exec.select(\"execution_id\", \"t\", \"p\", \"ts\", \"seq\", \"id\")\n",
+					"\n",
+					"df_curated.write.mode(\"overwrite\").parquet(curated_data_path)"
 				],
 				"execution_count": 4
-			},
-			{
-				"cell_type": "code",
-				"source": [
-					"df_raw = spark.read.json(raw_data_path)\n",
-					"df_raw.show()"
-				],
-				"execution_count": 8
-			},
-			{
-				"cell_type": "code",
-				"source": [
-					"# Write out as Parquet to curated path (overwrite mode for dev)\n",
-					"df_raw.write.mode(\"overwrite\").parquet(curated_data_path)\n",
-					""
-				],
-				"execution_count": 9
-			},
-			{
-				"cell_type": "code",
-				"source": [
-					"# Read back curated Parquet data\n",
-					"df_curated = spark.read.parquet(curated_data_path)\n",
-					"\n",
-					"# Show final curated data\n",
-					"df_curated.show()\n",
-					""
-				],
-				"execution_count": 10
 			}
 		]
 	}
