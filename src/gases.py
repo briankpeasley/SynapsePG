@@ -1,18 +1,15 @@
-import sys
-import json
-from pyspark.sql import SparkSession
+from pyspark.sql.functions import avg
+import Data
 
 #region exclude
+from pyspark.sql import SparkSession
 import Data
-data = Data.resolve(Data.FileData, "/mnt/c/temp/Synapse/atoms.json")
+spark = SparkSession.builder.getOrCreate()
+data = Data.transcripts("/mnt/c/temp/transcripts/raw/")
 #endregion
 
-spark = SparkSession.builder.getOrCreate()
-records = json.loads(data)
+df_counts = data.groupBy("execution_id", "t").count()
+df_avg_t = df_counts.groupBy("t").agg(avg("count").alias("avg_count_per_execution"))
 
-# Create DataFrame from list of dicts
-df = spark.createDataFrame(records)
-
-# Filter for gaseous atoms
-gases_df = df.filter(df["state"] == "gas")
-gases_df.show()
+df_counts.show()
+df_avg_t.show()
