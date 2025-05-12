@@ -1,5 +1,5 @@
 {
-	"name": "gases",
+	"name": "TypeGrouping",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d7ca024a-f00e-4551-940d-bf2357678edf"
+				"spark.autotune.trackingId": "646fb092-80d9-48ab-a163-5129575674f2"
 			}
 		},
 		"metadata": {
@@ -51,21 +51,12 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"import sys\r\n",
-					"import json\r\n",
-					"from pyspark.sql import SparkSession\r\n",
+					"storage_account_name = \"darwinadls\"\r\n",
+					"container_name = \"darwinfs\"\r\n",
+					"curated_data_path = f\"abfss://{container_name}@{storage_account_name}.dfs.core.windows.net/data/transcripts/curated/\"\r\n",
 					"\r\n",
-					"\r\n",
-					"spark = SparkSession.builder.getOrCreate()\r\n",
-					"records = json.loads(data)\r\n",
-					"\r\n",
-					"# Create DataFrame from list of dicts\r\n",
-					"df = spark.createDataFrame(records)\r\n",
-					"\r\n",
-					"# Filter for gaseous atoms\r\n",
-					"gases_df = df.filter(df[\"state\"] == \"gas\")\r\n",
-					"gases_df.show()\r\n",
-					""
+					"df_curated = spark.read.parquet(curated_path)\r\n",
+					"df_curated.show()"
 				],
 				"execution_count": 1
 			}
