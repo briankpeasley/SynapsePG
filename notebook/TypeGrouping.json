@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3c8b4d4b-666e-4e75-b0bc-444d118374ff"
+				"spark.autotune.trackingId": "6b0e0b54-c378-4a10-a8ea-7c086b029704"
 			}
 		},
 		"metadata": {
@@ -51,14 +51,20 @@
 			{
 				"cell_type": "code",
 				"source": [
+					"from pyspark.sql.functions import avg\r\n",
+					"\r\n",
 					"storage_account_name = \"darwinadls\"\r\n",
 					"container_name = \"darwinfs\"\r\n",
 					"curated_data_path = f\"abfss://{container_name}@{storage_account_name}.dfs.core.windows.net/data/transcripts/curated/\"\r\n",
 					"\r\n",
-					"df_curated = spark.read.parquet(curated_path)\r\n",
-					"df_curated.show()"
+					"data = spark.read.parquet(curated_data_path)\r\n",
+					"\r\n",
+					"count = data.groupBy(\"t\").count()\r\n",
+					"average_count = count.agg(avg(\"count\").alias(\"avg_count\")).collect()[0][\"avg_count\"]\r\n",
+					"\r\n",
+					"average_count.show()"
 				],
-				"execution_count": null
+				"execution_count": 7
 			}
 		]
 	}
