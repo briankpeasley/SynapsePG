@@ -1,5 +1,4 @@
 from pyspark.sql.functions import avg
-import Data
 
 #region exclude
 from pyspark.sql import SparkSession

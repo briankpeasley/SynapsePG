@@ -64,7 +64,6 @@
                 "execution_count": 1,
                 "source": [
                     "from pyspark.sql.functions import avg\r\n",
-                    "import Data\r\n",
                     "\r\n",
                     "\r\n",
                     "df_counts = data.groupBy(\"execution_id\", \"t\").count()\r\n",
