@@ -1,0 +1,71 @@
+{
+	"name": "TypeGrouping",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "darwinsparkpoc",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "6b0e0b54-c378-4a10-a8ea-7c086b029704"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/199b3c58-a154-4c89-80c8-6bbc39e6bee0/resourceGroups/darwinpoc/providers/Microsoft.Synapse/workspaces/darwinsynapse/bigDataPools/darwinsparkpoc",
+				"name": "darwinsparkpoc",
+				"type": "Spark",
+				"endpoint": "https://darwinsynapse.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/darwinsparkpoc",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"from pyspark.sql.functions import avg\r\n",
+					"\r\n",
+					"storage_account_name = \"darwinadls\"\r\n",
+					"container_name = \"darwinfs\"\r\n",
+					"curated_data_path = f\"abfss://{container_name}@{storage_account_name}.dfs.core.windows.net/data/transcripts/curated/\"\r\n",
+					"\r\n",
+					"data = spark.read.parquet(curated_data_path)\r\n",
+					"\r\n",
+					"count = data.groupBy(\"t\").count()\r\n",
+					"average_count = count.agg(avg(\"count\").alias(\"avg_count\")).collect()[0][\"avg_count\"]\r\n",
+					"\r\n",
+					"average_count.show()"
+				],
+				"execution_count": 7
+			}
+		]
+	}
+}

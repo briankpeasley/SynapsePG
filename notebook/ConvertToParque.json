@@ -1,5 +1,5 @@
 {
-	"name": "Notebook 1",
+	"name": "ConvertToParque",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "8adde02f-bc44-4dbf-856a-5c0029865948"
+				"spark.autotune.trackingId": "3ff9e3d8-ee11-4a3d-b6fa-ef510c993a52"
 			}
 		},
 		"metadata": {
@@ -25,7 +25,7 @@
 			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
-				"display_name": "python"
+				"display_name": "Synapse PySpark"
 			},
 			"language_info": {
 				"name": "python"
@@ -51,12 +51,25 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"import os\n",
+					"from pyspark.sql.functions import col, regexp_extract, input_file_name\n",
 					"\n",
-					"print(\"wtf\")\n",
-					""
+					"# Set your Storage account and container\n",
+					"storage_account_name = \"darwinadls\"\n",
+					"container_name = \"darwinfs\"\n",
+					"\n",
+					"# Paths\n",
+					"raw_data_path = f\"abfss://{container_name}@{storage_account_name}.dfs.core.windows.net/data/transcripts/\"\n",
+					"curated_data_path = f\"abfss://{container_name}@{storage_account_name}.dfs.core.windows.net/data/transcripts/curated/\"\n",
+					"df_raw = spark.read.json(raw_data_path)\n",
+					"\n",
+					"# Format data\n",
+					"df_with_exec = df_raw.withColumn(\"file_path\", input_file_name())\n",
+					"df_with_exec = df_with_exec.withColumn(\"execution_id\", regexp_extract(col(\"file_path\"), \"(transcript[0-9]+)\\\\.json\", 1))\n",
+					"df_curated = df_with_exec.select(\"execution_id\", \"t\", \"p\", \"ts\", \"seq\", \"id\")\n",
+					"\n",
+					"df_curated.write.mode(\"overwrite\").parquet(curated_data_path)"
 				],
-				"execution_count": null
+				"execution_count": 16
 			}
 		]
 	}
