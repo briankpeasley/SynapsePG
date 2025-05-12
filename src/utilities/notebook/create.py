@@ -30,6 +30,17 @@ def convert(name: str, file: str):
             {
                 "cell_type": "code",
                 "execution_count": 1,
+                "source": [
+                    "storage_account_name = \"darwinadls\"\r\n",
+					"container_name = \"darwinfs\"\r\n",
+					"curated_data_path = f\"abfss://{container_name}@{storage_account_name}.dfs.core.windows.net/data/transcripts/curated/\"\r\n",
+					"\r\n",
+					"data = spark.read.parquet(curated_data_path)\r\n"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": 1,
                 "source": formatted
             }
         ]
